@@ -66,8 +66,10 @@ def main():
     if not args.socket:
         cli.connected.connect(partial(win.ui.connectButton.setEnabled, False))
         cli.connected.connect(partial(win.ui.disconnectButton.setEnabled, True))
+        cli.connected.connect(win.update)
         cli.disconnected.connect(partial(win.ui.connectButton.setEnabled, True))
         cli.disconnected.connect(partial(win.ui.disconnectButton.setEnabled, False))
+        cli.disconnected.connect(win.update)
   
     win.show()
 
