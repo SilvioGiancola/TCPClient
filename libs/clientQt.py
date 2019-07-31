@@ -38,7 +38,7 @@ class ClientQt(QTcpSocket, ClientAbstract):
         self.disconnected.connect(self.disconnectToServer)
         self.error.connect(self.serverHasError)
 
-        self.connectToServer()
+        # self.connectToServer()
 
 
     def isConnected(self):
@@ -47,7 +47,7 @@ class ClientQt(QTcpSocket, ClientAbstract):
     # Create connection to server
     def connectToServer(self):
         self.connectToHost(self.HOST, self.PORT)
-        if self.waitForConnected(1000):
+        if self.waitForConnected(2000):
             self.messageReceived.emit("[CONNECTED]")
         else:
             self.messageReceived.emit("[NOT CONNECTED]")
