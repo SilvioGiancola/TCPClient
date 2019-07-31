@@ -78,9 +78,10 @@ class UploadCommand(Command):
         os.system('twine upload dist/*')
 
         self.status('Pushing git tags…')
+        os.system('git commit -am "minor commit for v{0}"'.format(about['__version__']))
         os.system('git tag -d v{0}'.format(about['__version__']))
         os.system('git tag v{0}'.format(about['__version__']))
-        # os.system('git push --tags')
+        os.system('git push --tags')
 
         sys.exit()
 
@@ -119,7 +120,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
     ],
-    options={'py2applet': OPTIONS},
+    options={'py2app': OPTIONS},
     setup_requires=SET_REQUIRES,
     # $ setup.py publish support.
     cmdclass={
