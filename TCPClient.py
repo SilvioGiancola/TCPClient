@@ -32,11 +32,11 @@ def main():
     app = QApplication(sys.argv)
     signal.signal(signal.SIGINT, signal.SIG_DFL)
 
-    win = uic.loadUi("libs/frontend.ui")
-    # win = MainWindow()
+    # win = uic.loadUi("libs/frontend.ui")
+    win = MainWindow()
     
-    win.IPLine.setText(args.HOST)
-    win.portBox.setValue(args.PORT)    
+    win.ui.IPLine.setText(args.HOST)
+    win.ui.portBox.setValue(args.PORT)    
 
     if args.socket:
         cli = ClientSocket(HOST=args.HOST, PORT=args.PORT)
@@ -45,29 +45,29 @@ def main():
 
     # Socket connection handle while messaging
     if args.socket:
-        win.connectButton.setEnabled(False)
-        win.disconnectButton.setEnabled(False)
+        win.ui.connectButton.setEnabled(False)
+        win.ui.disconnectButton.setEnabled(False)
     # QT handles connection/disconnection
     else:
-        win.connectButton.clicked.connect(cli.connectToServer)
-        win.disconnectButton.clicked.connect(cli.disconnectToServer)
+        win.ui.connectButton.clicked.connect(cli.connectToServer)
+        win.ui.disconnectButton.clicked.connect(cli.disconnectToServer)
 
-    win.sendImageButton.clicked.connect(cli.sendImage)
+    win.ui.sendImageButton.clicked.connect(cli.sendImage)
 
-    win.lineedit.returnPressed.connect(cli.sendMessage)
-    win.lineedit.textChanged.connect(cli.updateText)
+    win.ui.lineedit.returnPressed.connect(cli.sendMessage)
+    win.ui.lineedit.textChanged.connect(cli.updateText)
 
-    win.IPLine.returnPressed.connect(lambda: cli.updateIP(win.IPLine.text()))
-    win.portBox.valueChanged.connect(cli.updatePort)
+    win.ui.IPLine.returnPressed.connect(lambda: cli.updateIP(win.ui.IPLine.text()))
+    win.ui.portBox.valueChanged.connect(cli.updatePort)
 
-    cli.messageReceived.connect(win.textEdit.append)
-    cli.messageSent.connect(win.textEdit.append)
+    cli.messageReceived.connect(win.ui.textEdit.append)
+    cli.messageSent.connect(win.ui.textEdit.append)
 
     if not args.socket:
-        cli.connected.connect(partial(win.connectButton.setEnabled, False))
-        cli.connected.connect(partial(win.disconnectButton.setEnabled, True))
-        cli.disconnected.connect(partial(win.connectButton.setEnabled, True))
-        cli.disconnected.connect(partial(win.disconnectButton.setEnabled, False))
+        cli.connected.connect(partial(win.ui.connectButton.setEnabled, False))
+        cli.connected.connect(partial(win.ui.disconnectButton.setEnabled, True))
+        cli.disconnected.connect(partial(win.ui.connectButton.setEnabled, True))
+        cli.disconnected.connect(partial(win.ui.disconnectButton.setEnabled, False))
   
     win.show()
 
